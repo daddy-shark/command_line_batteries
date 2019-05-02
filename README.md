@@ -1,7 +1,7 @@
 # Command line batteries (clb)
 Plugin-driven Python program to improve the functionality of Bash commands without writing a too difficult Bash code.
 
-Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Backup_tools you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs.
+Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs.
 
 ## Features:
 - Timeout for every shell command
@@ -13,6 +13,7 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 
 ## Usage
 [example_script.py](example_script.py) -c [example_config.yml](example_config.yml)
+
 Usage example:
 ```
 example_script.py -c example_config.yml
@@ -52,3 +53,4 @@ wget -O /opt/command_line_batteries/example_config.yml https://raw.githubusercon
 
 ## Compatibility
 Command line batteries tested on Linux with BASH shell and Python 3.6 & 3.7
+
