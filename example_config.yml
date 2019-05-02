@@ -1,0 +1,31 @@
+---
+log_level: INFO
+
+# notifiers/influxdb_client
+influxdb:
+    host: your_influxdb_host
+    port: 8086
+    username: 'root'
+    password: 'root'
+    database: 'backups'
+    retries: 2
+    timeout: 5
+
+influxdb_measurement: 'backups'
+
+# backups/shell_commands
+shell_commands_env_path: /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+shell_commands_list:
+  - command: mkdir -p /tmp/backups
+    timeout_s: 1
+  - command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
+    timeout_s: 300
+
+# storages/aws_s3
+aws_files_list:
+  - /tmp/backups/current_backup.gz
+
+aws_access_key_id: YOUR_AWS_KEY_ID
+aws_secret_access_key: YOUR_AWS_ACCESS_KEY
+aws_bucket: your_aws_bucket_for_backups
+aws_expire_after_days: 30
