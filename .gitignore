@@ -2,6 +2,9 @@
 dev_config.yml
 dev_script.py
 
+# Docker
+docker/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
