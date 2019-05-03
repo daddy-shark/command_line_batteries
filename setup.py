@@ -9,7 +9,7 @@ setuptools.setup(
     author='Andrey Okulov',
     author_email='okulov@ya.ru',
     description='Command line batteries (clb)'
-                ' - way to improve the functionality of Bash commands without writing a too difficult Bash code.',
+                ' - the way to improve the functionality of Bash commands without writing a too difficult Bash code.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/sharkman-devops/command_line_batteries',
