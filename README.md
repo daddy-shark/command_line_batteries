@@ -31,6 +31,11 @@ example_script.py -c example_config.yml
 2019-05-06 13:05:08,135 - INFO - __main__ - Backup completed successfully
 2019-05-06 13:05:08,135 - INFO - clb.notifiers.influxdb_client - Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 ```
+Grafana visualisation example:
+
+[hosted_snapshot](https://snapshot.raintank.io/dashboard/snapshot/Dw3pSX5NL3yXlZPXMv37872R12mEsTQg)
+
+[exported_json](grafana/backups_dashboard_example.json)
 
 ## Installation
 #### The simplest way:
@@ -112,4 +117,3 @@ Don't forget to fill the example_config.yml and check the example_script.py for 
 
 ## Compatibility
 Command line batteries tested on Linux with BASH shell and Python 3.6 & 3.7
-
