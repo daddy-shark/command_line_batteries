@@ -3,7 +3,7 @@ log_level: INFO
 
 # notifiers/influxdb_client
 influxdb:
-    host: your_influxdb_host
+    host: YOUR_INFLUXDB.HOST
     port: 8086
     username: 'root'
     password: 'root'
@@ -27,5 +27,5 @@ aws_files_list:
 
 aws_access_key_id: YOUR_AWS_KEY_ID
 aws_secret_access_key: YOUR_AWS_ACCESS_KEY
-aws_bucket: your_aws_bucket_for_backups
+aws_bucket: YOUR_AWS_BUCKET_FOR_BACKUPS
 aws_expire_after_days: 30
