@@ -27,7 +27,7 @@ except KeyError as e:
 def upload_file(file_path):
     file_name = f'{str(datetime.date.today())}-{os.path.basename(file_path)}'
     short_hostname = HOSTNAME.split(".")[0]
-    log.info(f'Upload {file_path} to s3/{short_hostname}/{file_name}')
+    log.info(f'Upload {file_path} to s3/{AWS_BUCKET_NAME}/{short_hostname}/{file_name}')
     try:
         s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
         s3.upload_file(file_path, AWS_BUCKET_NAME, f'{short_hostname}/{file_name}')
