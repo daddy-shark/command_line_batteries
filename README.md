@@ -17,11 +17,11 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 Usage example:
 ```
 example_script.py -c example_config.yml
-2019-05-06 13:05:06,962 - INFO - clb.config_parser.config_parser - Reading config file: /opt/command_line_batteries/example_config.yml
-2019-05-06 13:05:07,176 - INFO - clb.backups.shell_commands - Running shell command: mkdir -p /tmp/backups
-2019-05-06 13:05:07,182 - INFO - clb.backups.shell_commands - Shell command success
-2019-05-06 13:05:07,183 - INFO - clb.backups.shell_commands - Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
-2019-05-06 13:05:07,189 - INFO - clb.backups.shell_commands - Shell command success
+2019-05-06 13:05:06,962 - INFO - clb.config_parser - Reading config file: /opt/command_line_batteries/example_config.yml
+2019-05-06 13:05:07,176 - INFO - clb.shell_commands - Running shell command: mkdir -p /tmp/backups
+2019-05-06 13:05:07,182 - INFO - clb.shell_commands - Shell command success
+2019-05-06 13:05:07,183 - INFO - clb.shell_commands - Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
+2019-05-06 13:05:07,189 - INFO - clb.shell_commands - Shell command success
 2019-05-06 13:05:07,190 - INFO - __main__ - Backup files created successfully
 2019-05-06 13:05:07,190 - INFO - clb.notifiers.influxdb_client - Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup files created', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 2019-05-06 13:05:07,199 - INFO - clb.storages.aws_s3 - Upload /tmp/backups/current_backup.gz to s3/EXAMPLE.HOST/2019-05-06-current_backup.gz

@@ -7,10 +7,10 @@ def init_logger(name: str, log_level: str) -> logging.Logger:
     try:
         logger.setLevel(log_level)
         c_handler.setLevel(log_level)
-    except ValueError as e:
+    except ValueError as error:
         logger.setLevel(logging.DEBUG)
         c_handler.setLevel(logging.DEBUG)
-        print(f'Error: Wrong log_level: {e}')
+        print(f'Error: Wrong log_level: {error}')
 
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     c_handler.setFormatter(formatter)

@@ -1,64 +1,56 @@
 import sys
-import requests
-import socket
 
 from influxdb import InfluxDBClient, exceptions
+import requests
 
-from clb import init_logger
-from clb.config_parser import config_parser
+from clb.logger import init_logger
+from clb.config_parser import get_log_level, get_config_value, get_hostname
 
 
-log = init_logger(__name__, config_parser.get_log_level())
-HOSTNAME = socket.gethostname()
-
-try:
-    INFLUXDB_CONNECTION_KVARGS = config_parser.CONFIG['influxdb']
-    INFLUXDB_MEASUREMENT = config_parser.CONFIG['influxdb_measurement']
-except KeyError as e:
-    log.error(f'Bad config file: Key {e} not found')
-    sys.exit(1)
+LOG = init_logger(__name__, get_log_level())
 
 
 class InfluxDBClientManager:
     __instance = None
 
     def __init__(self, connection_kwargs) -> None:
-        log.debug(f'Creating client to InfluxDB database: {connection_kwargs.get("host")}:{connection_kwargs.get("port")}')
+        LOG.debug(f'Creating client to InfluxDB database: '
+                  f'{connection_kwargs.get("host")}:{connection_kwargs.get("port")}')
         try:
             self.influx_client = InfluxDBClient(**connection_kwargs)
-        except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as e:
-            log.error(f'InfluxDB error: {e}')
+        except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as error:
+            LOG.error(f'InfluxDB error: {error}')
             sys.exit(2)
 
-        log.debug(f'Creating {connection_kwargs.get("host")} database: {connection_kwargs.get("database")}')
+        LOG.debug(f'Creating {connection_kwargs.get("host")} database: {connection_kwargs.get("database")}')
         try:
             self.influx_client.create_database(connection_kwargs.get('database'))
-        except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as e:
-            log.error(f'InfluxDB error: {e}')
+        except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as error:
+            LOG.error(f'InfluxDB error: {error}')
             sys.exit(3)
 
     @staticmethod
     def client() -> InfluxDBClient:
         if InfluxDBClientManager.__instance is None:
-            InfluxDBClientManager.__instance = InfluxDBClientManager(INFLUXDB_CONNECTION_KVARGS)
+            InfluxDBClientManager.__instance = InfluxDBClientManager(get_config_value('influxdb'))
 
         return InfluxDBClientManager.__instance.influx_client
 
 
 def write_point(json_point: dict) -> None:
-    log.info(f'Adding point to InfluxDB: {json_point}')
+    LOG.info(f'Adding point to InfluxDB: {json_point}')
     try:
         InfluxDBClientManager.client().write_points([json_point])
-    except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as e:
-        log.error(f"Can't write to InfluxDB {InfluxDBClientManager.client()}: {e}")
+    except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as error:
+        LOG.error(f"Can't write to InfluxDB {InfluxDBClientManager.client()}: {error}")
 
 
 def write_status(status_name: str, status_code: int) -> None:
     status_point = {
-        'measurement': INFLUXDB_MEASUREMENT,
+        'measurement': get_config_value('influxdb_measurement'),
         'tags': {
             'status': status_name,
-            'host': HOSTNAME
+            'host': get_hostname()
         },
         'fields': {
             'value': status_code,
