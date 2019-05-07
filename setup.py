@@ -18,6 +18,7 @@ setuptools.setup(
         'PyYAML>=5.1,<6.0',
         'influxdb>=5.2.2,<6.0',
         'boto3>=1.9.120,<2.0',
+        'requests>=2.21.0,<3.0',
     ],
     extras_require={
         'devel': [

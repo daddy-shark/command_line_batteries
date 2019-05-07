@@ -4,24 +4,25 @@ import sys
 from clb import *
 
 
-log = init_logger(__name__, get_log_level())
+LOG = logger.init_logger(__name__, config_parser.get_log_level())
+
 
 if __name__ == '__main__':
     if shell_commands.run_all_shell_commands():
-        log.info('Backup files created successfully')
+        LOG.info('Backup files created successfully')
         influxdb_client.write_status('Backup files created', 0)
     else:
-        log.critical('Failed to create backup files')
+        LOG.critical('Failed to create backup files')
         influxdb_client.write_status('Backup files created', 1)
         sys.exit(1)
 
     if aws_s3.upload_all_files():
-        log.info('Upload to s3 completed successfully')
+        LOG.info('Upload to s3 completed successfully')
         influxdb_client.write_status('Upload to s3 completed', 0)
     else:
-        log.error('Upload to s3 failed')
+        LOG.error('Upload to s3 failed')
         influxdb_client.write_status('Upload to s3 completed', 1)
         sys.exit(2)
 
-    log.info('Backup completed successfully')
+    LOG.info('Backup completed successfully')
     influxdb_client.write_status('Backup completed', 0)
