@@ -1,4 +1,4 @@
-.PHONY: all prepare-dev venv lint test run shell clean build test_upload upload
+.PHONY: all prepare-dev venv lint test clean build test_upload upload
 .PHONY: docker_influxdb docker_influxdb_shell docker_grafana docker_kill
 PROJECT=clb
 
