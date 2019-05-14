@@ -1,11 +1,14 @@
 import subprocess
 import os
+import sys
 
 from clb.logger import init_logger
 from clb.config_parser import ConfigManager
 
 
-LOG = init_logger(__name__, 'DEBUG')
+LOG = init_logger(__name__)
+if 'pytest' not in sys.modules:
+    LOG.setLevel(ConfigManager.get_log_level())
 
 
 def run_shell_command(command: str, timeout: float) -> bool:

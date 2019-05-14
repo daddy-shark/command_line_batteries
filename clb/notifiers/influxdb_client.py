@@ -3,11 +3,13 @@ import sys
 from influxdb import InfluxDBClient, exceptions
 import requests
 
-from clb.logger import init_logger
 from clb.config_parser import get_hostname, ConfigManager
+from clb.logger import init_logger
 
 
-LOG = init_logger(__name__, 'DEBUG')
+LOG = init_logger(__name__)
+if 'pytest' not in sys.modules:
+    LOG.setLevel(ConfigManager.get_log_level())
 
 
 class InfluxDBClientManager:

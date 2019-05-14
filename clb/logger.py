@@ -1,7 +1,7 @@
 import logging
 
 
-def init_logger(name: str, log_level: str) -> logging.Logger:
+def init_logger(name: str, log_level: str = 'DEBUG') -> logging.Logger:
     logger = logging.getLogger(name)
     c_handler = logging.StreamHandler()
     try:

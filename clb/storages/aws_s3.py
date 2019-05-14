@@ -1,5 +1,6 @@
 import os
 import datetime
+import sys
 
 import boto3
 import botocore
@@ -8,7 +9,9 @@ from clb.logger import init_logger
 from clb.config_parser import get_hostname, ConfigManager
 
 
-LOG = init_logger(__name__, 'DEBUG')
+LOG = init_logger(__name__)
+if 'pytest' not in sys.modules:
+    LOG.setLevel(ConfigManager.get_log_level())
 
 
 def upload_file(file_path: str) -> bool:
