@@ -38,13 +38,13 @@ class InfluxDBClientManager:
 
         return InfluxDBClientManager.__instance.influx_client
 
-
-def write_point(json_point: dict) -> None:
-    LOG.info(f'Adding point to InfluxDB: {json_point}')
-    try:
-        InfluxDBClientManager.client().write_points([json_point])
-    except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as error:
-        LOG.error(f"Can't write to InfluxDB {InfluxDBClientManager.client()}: {error}")
+    @staticmethod
+    def write_point(json_point: dict) -> None:
+        LOG.info(f'Adding point to InfluxDB: {json_point}')
+        try:
+            InfluxDBClientManager.client().write_points([json_point])
+        except (exceptions.InfluxDBClientError, requests.exceptions.ConnectionError) as error:
+            LOG.error(f"Can't write to InfluxDB {InfluxDBClientManager.client()}: {error}")
 
 
 def write_status(status_name: str, status_code: int) -> None:
@@ -59,4 +59,4 @@ def write_status(status_name: str, status_code: int) -> None:
         },
     }
 
-    write_point(status_point)
+    InfluxDBClientManager.write_point(status_point)
