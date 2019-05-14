@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-import sys
 
 from clb import *
 
 
-LOG = logger.init_logger(__name__, config_parser.get_log_level())
+LOG = logger.init_logger(__name__, LOG_LEVEL)
 
 
 if __name__ == '__main__':

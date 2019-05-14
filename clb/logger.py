@@ -1,7 +1,7 @@
 import logging
 
 
-def init_logger(name: str, log_level: str) -> logging.Logger:
+def init_logger(name: str, log_level: str = 'DEBUG') -> logging.Logger:
     logger = logging.getLogger(name)
     c_handler = logging.StreamHandler()
     try:
@@ -12,7 +12,7 @@ def init_logger(name: str, log_level: str) -> logging.Logger:
         c_handler.setLevel(logging.DEBUG)
         print(f'Error: Wrong log_level: {error}')
 
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s %(levelname)s in %(name)s: %(message)s')
     c_handler.setFormatter(formatter)
 
     logger.addHandler(c_handler)

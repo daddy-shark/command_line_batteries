@@ -1,16 +1,19 @@
 import subprocess
 import os
+import sys
 
 from clb.logger import init_logger
-from clb.config_parser import get_log_level, get_config_value
+from clb.config_parser import ConfigManager
 
 
-LOG = init_logger(__name__, get_log_level())
+LOG = init_logger(__name__)
+if 'pytest' not in sys.modules:
+    LOG.setLevel(ConfigManager.get_log_level())
 
 
 def run_shell_command(command: str, timeout: float) -> bool:
     backup_env = os.environ.copy()
-    backup_env["PATH"] = str(get_config_value('shell_commands_env_path')) + backup_env["PATH"]
+    backup_env["PATH"] = str(ConfigManager.get_config_value('shell_commands_env_path')) + backup_env["PATH"]
     LOG.debug(f'Using shell environment: {backup_env}')
     LOG.info(f'Running shell command: {command}')
     child = subprocess.Popen(
@@ -44,7 +47,7 @@ def run_shell_command(command: str, timeout: float) -> bool:
 
 
 def run_all_shell_commands() -> bool:
-    for item in list(get_config_value('shell_commands_list')):
+    for item in list(ConfigManager.get_config_value('shell_commands_list')):
         if not run_shell_command(item.get('command'), item.get('timeout_s')):
             return False
 

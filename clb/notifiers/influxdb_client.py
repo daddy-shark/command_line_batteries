@@ -3,11 +3,13 @@ import sys
 from influxdb import InfluxDBClient, exceptions
 import requests
 
+from clb.config_parser import get_hostname, ConfigManager
 from clb.logger import init_logger
-from clb.config_parser import get_log_level, get_config_value, get_hostname
 
 
-LOG = init_logger(__name__, get_log_level())
+LOG = init_logger(__name__)
+if 'pytest' not in sys.modules:
+    LOG.setLevel(ConfigManager.get_log_level())
 
 
 class InfluxDBClientManager:
@@ -32,7 +34,7 @@ class InfluxDBClientManager:
     @staticmethod
     def client() -> InfluxDBClient:
         if InfluxDBClientManager.__instance is None:
-            InfluxDBClientManager.__instance = InfluxDBClientManager(get_config_value('influxdb'))
+            InfluxDBClientManager.__instance = InfluxDBClientManager(ConfigManager.get_config_value('influxdb'))
 
         return InfluxDBClientManager.__instance.influx_client
 
@@ -47,7 +49,7 @@ def write_point(json_point: dict) -> None:
 
 def write_status(status_name: str, status_code: int) -> None:
     status_point = {
-        'measurement': get_config_value('influxdb_measurement'),
+        'measurement': ConfigManager.get_config_value('influxdb_measurement'),
         'tags': {
             'status': status_name,
             'host': get_hostname()
