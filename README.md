@@ -1,7 +1,7 @@
 # Command line batteries (clb)
 Plugin-driven Python program to improve the functionality of Bash commands without writing a too difficult Bash code.
 
-Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs.
+Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. This files designed to be as simple as possible.
 
 ## Features:
 - Timeout for every shell command
@@ -12,23 +12,32 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 - AWS S3 upload with expiration policy
 
 ## Usage
-[example_script.py](example_script.py) -c [example_config.yml](example_config.yml)
-
-Usage example:
+#### Basic usage example:
+[example_simple_script.py](example_simple_script.py) -c [example_simple_config.yml](example_simple_config.yml)
 ```
-example_script.py -c example_config.yml
+2019-05-06 13:38:29,930 INFO in clb.config_parser: Reading config file: example_simple_config.yml
+2019-05-06 13:38:29,933 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
+2019-05-06 13:38:29,943 INFO in clb.shell_commands: Shell command success
+2019-05-06 13:38:29,944 INFO in clb.shell_commands: Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
+2019-05-06 13:38:29,963 INFO in clb.shell_commands: Shell command success
+2019-05-06 13:38:29,964 INFO in clb: Commands completed
+```
+
+#### Advanced usage example:
+[example_script.py](example_script.py) -c [example_config.yml](example_config.yml)
+``` 
 2019-05-06 13:05:06,962 INFO in clb.config_parser: Reading config file: /opt/command_line_batteries/example_config.yml
 2019-05-06 13:05:07,176 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
 2019-05-06 13:05:07,182 INFO in clb.shell_commands: Shell command success
 2019-05-06 13:05:07,183 INFO in clb.shell_commands: Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
 2019-05-06 13:05:07,189 INFO in clb.shell_commands: Shell command success
-2019-05-06 13:05:07,190 INFO in __main__: Backup files created successfully
+2019-05-06 13:05:07,190 INFO in clb: Backup files created successfully
 2019-05-06 13:05:07,190 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup files created', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 2019-05-06 13:05:07,199 INFO in clb.storages.aws_s3: Upload /tmp/backups/current_backup.gz to s3/EXAMPLE.HOST/2019-05-06-current_backup.gz
 2019-05-06 13:05:07,514 INFO in clb.storages.aws_s3: Update bucket YOUR_AWS_BUCKET_FOR_BACKUPS lifecycle rules
-2019-05-06 13:05:08,131 INFO in __main__: Upload to s3 completed successfully
+2019-05-06 13:05:08,131 INFO in clb: Upload to s3 completed successfully
 2019-05-06 13:05:08,131 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Upload to s3 completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
-2019-05-06 13:05:08,135 INFO in __main__: Backup completed successfully
+2019-05-06 13:05:08,135 INFO in clb: Backup completed successfully
 2019-05-06 13:05:08,135 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 ```
 Grafana visualisation example:

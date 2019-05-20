@@ -1,0 +1,11 @@
+---
+# Possible log levels: CRITICAL, ERROR, WARNING, INFO, DEBUG
+log_level: INFO
+
+# backups/shell_commands
+shell_commands_env_path: /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+shell_commands_list:
+  - command: mkdir -p /tmp/backups
+    timeout_s: 1
+  - command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
+    timeout_s: 300

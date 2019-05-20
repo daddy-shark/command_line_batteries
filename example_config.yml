@@ -1,4 +1,5 @@
 ---
+# Possible log levels: CRITICAL, ERROR, WARNING, INFO, DEBUG
 log_level: INFO
 
 # notifiers/influxdb_client
