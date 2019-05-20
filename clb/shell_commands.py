@@ -8,7 +8,7 @@ from clb.config_parser import ConfigManager
 LOG = logging.getLogger(__name__)
 
 
-def run_shell_command(command: str, timeout: float) -> bool:
+def run_shell_command(command: str, timeout: float = None) -> bool:
     backup_env = os.environ.copy()
     backup_env["PATH"] = str(ConfigManager.get_config_value('shell_commands_env_path')) + backup_env["PATH"]
     LOG.debug(f'Using shell environment: {backup_env}')
@@ -23,7 +23,10 @@ def run_shell_command(command: str, timeout: float) -> bool:
         env=backup_env,
     )
     try:
-        stdout, stderr = child.communicate(timeout=float(timeout))
+        if timeout:
+            stdout, stderr = child.communicate(timeout=float(timeout))
+        else:
+            stdout, stderr = child.communicate()
     except subprocess.TimeoutExpired:
         LOG.critical(f'Shell command timeout exceeded')
         child.kill()
