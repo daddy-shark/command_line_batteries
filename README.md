@@ -1,7 +1,7 @@
 # Command line batteries (clb)
 Plugin-driven Python program to improve the functionality of Bash commands without writing a too difficult Bash code.
 
-Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. This files designed to be as simple as possible.
+Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. These files are designed to be as simple as possible.
 
 ## Features:
 - Timeout for every shell command
@@ -40,7 +40,7 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 2019-05-06 13:05:08,135 INFO in clb: Backup completed successfully
 2019-05-06 13:05:08,135 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 ```
-Grafana visualisation example:
+#### Grafana visualisation example:
 
 [hosted_snapshot](https://snapshot.raintank.io/dashboard/snapshot/Dw3pSX5NL3yXlZPXMv37872R12mEsTQg)
 
