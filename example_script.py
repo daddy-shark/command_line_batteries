@@ -3,9 +3,6 @@
 from clb import *
 
 
-LOG = logger.init_logger(__name__, LOG_LEVEL)
-
-
 if __name__ == '__main__':
     if shell_commands.run_all_shell_commands():
         LOG.info('Backup files created successfully')
