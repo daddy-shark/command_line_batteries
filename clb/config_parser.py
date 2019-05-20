@@ -2,13 +2,12 @@ import sys
 import argparse
 from typing import Union
 import socket
+import logging
 
 import yaml
 
-from clb.logger import init_logger
 
-
-LOG = init_logger(__name__, 'DEBUG')
+LOG = logging.getLogger(__name__)
 
 
 def get_config_path() -> str:
