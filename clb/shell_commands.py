@@ -9,9 +9,10 @@ LOG = logging.getLogger(__name__)
 
 
 def run_shell_command(command: str, timeout: float = None) -> bool:
-    backup_env = os.environ.copy()
-    backup_env["PATH"] = str(ConfigManager.get_config_value('shell_commands_env_path')) + backup_env["PATH"]
-    LOG.debug(f'Using shell environment: {backup_env}')
+    command_env = os.environ.copy()
+    config_path = str(ConfigManager.get_config_value("shell_commands_env_path")).strip(':')
+    command_env["PATH"] = f'{config_path}:{command_env["PATH"]}'
+    LOG.debug(f'Using shell environment: {command_env}')
     LOG.info(f'Running shell command: {command}')
     child = subprocess.Popen(
         f"{command}; echo ${{PIPESTATUS[@]}} | "
@@ -20,7 +21,7 @@ def run_shell_command(command: str, timeout: float = None) -> bool:
         stderr=subprocess.STDOUT,
         shell=True,
         executable='bash',
-        env=backup_env,
+        env=command_env,
     )
     try:
         if timeout:
