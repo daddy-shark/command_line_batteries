@@ -13,7 +13,7 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 
 ## Usage
 #### Basic usage example:
-[example_simple_script.py](example_simple_script.py) -c [example_simple_config.yml](example_simple_config.yml)
+[example_simple_script.py](examples/example_simple_script.py) -c [example_simple_config.yml](examples/example_simple_config.yml)
 ```
 2019-05-06 13:38:29,930 INFO in clb.config_parser: Reading config file: example_simple_config.yml
 2019-05-06 13:38:29,933 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
@@ -24,7 +24,7 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 ```
 
 #### Advanced usage example:
-[example_script.py](example_script.py) -c [example_config.yml](example_config.yml)
+[example_script.py](examples/example_script.py) -c [example_config.yml](examples/example_config.yml)
 ``` 
 2019-05-06 13:05:06,962 INFO in clb.config_parser: Reading config file: /opt/command_line_batteries/example_config.yml
 2019-05-06 13:05:07,176 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
@@ -48,55 +48,35 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 
 ## Installation
 #### The simplest way:
-Create install directory:
+Download and run installation script (python2/3):
+```
+$ wget -O /tmp/install_clb.py https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/install_clb.py
+$ sudo python /tmp/install_clb.py
+```
+
+Create a cron job(crontab -e):
+```
+51 23 * * * /opt/command_line_batteries/venv/bin/python /opt/command_line_batteries/example_script.py -c /opt/command_line_batteries/example_config.yml >> /var/log/command_line_batteries/example.log 2>&1
+```
+Don't forget to fill the example_config.yml and check the example_script.py for logic you want!
+
+#### More flexible way:
+Create an install directory:
 ```
 mkdir -p /opt/command_line_batteries
 ```
 
-Install command line batteries:
-```
-python3 -m pip install clb
-```
-
-Download example script and config:
-```
-wget -O /opt/command_line_batteries/example_script.py https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/example_script.py
-wget -O /opt/command_line_batteries/example_config.yml https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/example_config.yml
-```
-
-Make example script executable:
-```
-chmod +x /opt/command_line_batteries/example_script.py
-```
-
-Create logs directory:
-```
-mkdir -p /var/log/command_line_batteries
-```
-
-Create cron job(crontab -e):
-```
-51 23 * * * /opt/command_line_batteries/example_script.py -c /opt/command_line_batteries/example_config.yml >> /var/log/command_line_batteries/example.log 2>&1
-```
-Don't forget to fill the example_config.yml and check the example_script.py for logic that your want!
-
-#### The virtual environment way:
-Create install directory:
-```
-mkdir -p /opt/command_line_batteries
-```
-
-Create virtual environment:
+Create a virtual environment:
 ```
 python3 -m venv /opt/command_line_batteries/venv
 ```
 
-Activate virtual environment:
+Activate a virtual environment:
 ```
 source /opt/command_line_batteries/venv/bin/activate
 ```
 
-Install command line batteries:
+Install the command line batteries:
 ```
 pip install clb
 ```
@@ -107,22 +87,27 @@ wget -O /opt/command_line_batteries/example_script.py https://raw.githubusercont
 wget -O /opt/command_line_batteries/example_config.yml https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/example_config.yml
 ```
 
-Make example script executable:
+Make the example script executable:
 ```
 chmod +x /opt/command_line_batteries/example_script.py
 ```
 
-Create logs directory:
+Create a logs directory:
 ```
 mkdir -p /var/log/command_line_batteries
 ```
 
-Create cron job (crontab -e):
+Create a cron job (crontab -e):
 ```
 51 23 * * * /opt/command_line_batteries/venv/bin/python /opt/command_line_batteries/example_script.py -c /opt/command_line_batteries/example_config.yml >> /var/log/command_line_batteries/example.log 2>&1
 ```
-Don't forget to fill the example_config.yml and check the example_script.py for logic that your want!
+Don't forget to fill the example_config.yml and check the example_script.py for logic you want!
 
 
 ## Compatibility
-Command line batteries tested on Linux with BASH shell and Python 3.6 & 3.7
+Environment should include:
+- BASH Shell
+- Awk
+- Python 3.6 or 3.7
+
+Command line batteries tested on GNU Linux with GNU bash 4, GNU Awk 4 and Python 3.6 & 3.7
