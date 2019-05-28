@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='clb',
-    version='0.0.6',
+    version='0.0.7',
     author='Andrey Okulov',
     author_email='okulov@ya.ru',
     description='Command line batteries (clb)'
@@ -19,6 +19,7 @@ setuptools.setup(
         'influxdb>=5.2.2,<6.0',
         'boto3>=1.9.120,<2.0',
         'requests>=2.21.0,<3.0',
+        'slackclient>=2.0.1,<3.0',
     ],
     extras_require={
         'devel': [

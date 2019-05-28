@@ -2,6 +2,10 @@
 # Possible log levels: CRITICAL, ERROR, WARNING, INFO, DEBUG
 log_level: INFO
 
+# notifiers/slack
+slack_token: YOUR_SLACK_TOKEN
+slack_channel: YOUR_SLACK_CHANNEL
+
 # notifiers/influxdb_client
 influxdb:
     host: YOUR_INFLUXDB.HOST
