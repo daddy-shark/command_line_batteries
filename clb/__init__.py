@@ -1,7 +1,7 @@
 import sys
 
 from clb.storages import aws_s3
-from clb.notifiers import influxdb_client
+from clb.notifiers import influxdb_client, slack_client
 from clb.config_parser import ConfigManager
 from clb.logger import init_logger
 
@@ -15,5 +15,6 @@ __all__ = [
     'shell_commands',
     'aws_s3',
     'influxdb_client',
+    'slack_client',
     'LOG',
 ]
