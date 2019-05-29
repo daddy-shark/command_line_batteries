@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='clb',
-    version='0.0.7',
+    version='0.0.8',
     author='Andrey Okulov',
     author_email='okulov@ya.ru',
     description='Command line batteries (clb)'

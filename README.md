@@ -5,13 +5,14 @@ Plugin-driven Python program to improve the functionality of Bash commands witho
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clb.svg)
 [![Requirements Status](https://requires.io/github/sharkman-devops/command_line_batteries/requirements.svg?branch=master)](https://requires.io/github/sharkman-devops/command_line_batteries/requirements/?branch=master)
 
-Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. These files are designed to be as simple as possible.
+Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, send notifications to Slack, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. These files are designed to be as simple as possible.
 
 ## Features:
 - Timeout for every shell command
 - Check for exit code of every shell command, inclusive all commands in the pipeline
 - PATH environment var for shell commands
 - Informative logs
+- Slack notifications
 - Monitoring via influxdb metrics
 - AWS S3 upload with expiration policy
 
@@ -29,21 +30,25 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 
 #### Advanced usage example:
 [example_script.py](examples/example_script.py) -c [example_config.yml](examples/example_config.yml)
-``` 
-2019-05-06 13:05:06,962 INFO in clb.config_parser: Reading config file: /opt/command_line_batteries/example_config.yml
-2019-05-06 13:05:07,176 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
-2019-05-06 13:05:07,182 INFO in clb.shell_commands: Shell command success
-2019-05-06 13:05:07,183 INFO in clb.shell_commands: Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
-2019-05-06 13:05:07,189 INFO in clb.shell_commands: Shell command success
-2019-05-06 13:05:07,190 INFO in clb: Backup files created successfully
-2019-05-06 13:05:07,190 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup files created', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
-2019-05-06 13:05:07,199 INFO in clb.storages.aws_s3: Upload /tmp/backups/current_backup.gz to s3/EXAMPLE.HOST/2019-05-06-current_backup.gz
-2019-05-06 13:05:07,514 INFO in clb.storages.aws_s3: Update bucket YOUR_AWS_BUCKET_FOR_BACKUPS lifecycle rules
-2019-05-06 13:05:08,131 INFO in clb: Upload to s3 completed successfully
-2019-05-06 13:05:08,131 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Upload to s3 completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
-2019-05-06 13:05:08,135 INFO in clb: Backup completed successfully
-2019-05-06 13:05:08,135 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup completed', 'host': 'EXAMPLE.HOST'}, 'fields': {'value': 0}}
 ```
+2019-05-30 02:02:59,815 INFO in clb.config_parser: Reading config file: /opt/command_line_batteries/example_config.yml
+2019-05-30 02:02:59,822 INFO in clb.shell_commands: Running shell command: mkdir -p /tmp/backups
+2019-05-30 02:02:59,833 INFO in clb.shell_commands: Shell command success
+2019-05-30 02:02:59,834 INFO in clb.shell_commands: Running shell command: echo 'THE BACKUP BASH COMMAND' | pigz -p 4 -4 > /tmp/backups/current_backup.gz
+2019-05-30 02:02:59,846 INFO in clb.shell_commands: Shell command success
+2019-05-30 02:02:59,847 INFO in clb: Backup files created successfully
+2019-05-30 02:02:59,847 INFO in clb.notifiers.slack_client: Sending message "Backup files created successfully" to channel: YOUR_SLACK_CHANNEL
+2019-05-30 02:03:00,343 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup files created', 'host': 'YOUR_HOST'}, 'fields': {'value': 0}}
+2019-05-30 02:03:00,420 INFO in clb.storages.aws_s3: Upload /tmp/backups/current_backup.gz to s3/YOUR_AWS_BUCKET_FOR_BACKUPS/YOUR_HOST/2019-05-30-current_backup.gz
+2019-05-30 02:03:01,156 INFO in clb.storages.aws_s3: Update bucket YOUR_AWS_BUCKET_FOR_BACKUPS lifecycle rules
+2019-05-30 02:03:02,184 INFO in clb: Upload to s3 completed successfully
+2019-05-30 02:03:02,184 INFO in clb.notifiers.slack_client: Sending message "Upload to s3 completed successfully" to channel: YOUR_SLACK_CHANNEL
+2019-05-30 02:03:02,394 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Upload to s3 completed', 'host': 'YOUR_HOST'}, 'fields': {'value': 0}}
+2019-05-30 02:03:02,408 INFO in clb: Backup completed successfully
+2019-05-30 02:03:02,408 INFO in clb.notifiers.slack_client: Sending message "Backup completed successfully" to channel: YOUR_SLACK_CHANNEL
+2019-05-30 02:03:02,894 INFO in clb.notifiers.influxdb_client: Adding point to InfluxDB: {'measurement': 'backups', 'tags': {'status': 'Backup completed', 'host': 'YOUR_HOST'}, 'fields': {'value': 0}}
+```
+
 #### Grafana visualisation example:
 
 [hosted_snapshot](https://snapshot.raintank.io/dashboard/snapshot/Dw3pSX5NL3yXlZPXMv37872R12mEsTQg)
