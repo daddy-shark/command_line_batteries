@@ -3,7 +3,7 @@ Plugin-driven Python program to improve the functionality of Bash commands witho
 
 [![PyPI version](https://badge.fury.io/py/clb.svg)](https://badge.fury.io/py/clb)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clb.svg)
-[![Requirements Status](https://requires.io/github/sharkman-devops/command_line_batteries/requirements.svg?branch=master)](https://requires.io/github/sharkman-devops/command_line_batteries/requirements/?branch=master)
+[![Requirements Status](https://requires.io/github/daddy-shark/command_line_batteries/requirements.svg?branch=master)](https://requires.io/github/daddy-shark/command_line_batteries/requirements/?branch=master)
 
 Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > mysqldump.gz` but there is no easy way to collect exit codes for every command in the pipeline, take care about commands environment, check for timeout, notify monitoring system, write awesome logs, send notifications to Slack, upload backups to AWS S3 and so on. With Command line batteries you have all of this stuff out of the box. Just fill the YAML config file and change the Python script file for your needs. These files are designed to be as simple as possible.
 
