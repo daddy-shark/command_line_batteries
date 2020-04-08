@@ -18,7 +18,7 @@ def send_message(message: str) -> None:
             channel=slack_channel,
             text=message,
             username='CLB',
-            icon_url='https://github.com/sharkman-devops/command_line_batteries/raw/master/icon/term.png',
+            icon_url='https://github.com/daddy-shark/command_line_batteries/raw/master/icon/term.png',
         )
         if response.get('ok') and response.get('message') == message:
             LOG.info('Message sent successfully!')

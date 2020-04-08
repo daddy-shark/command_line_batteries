@@ -59,7 +59,7 @@ Bash is good for backup pipelines like `mysqldump [options] | pigz [options] > m
 #### The simplest way:
 Download and run installation script (python2/3):
 ```
-$ wget -O /tmp/install_clb.py https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/install_clb.py
+$ wget -O /tmp/install_clb.py https://raw.githubusercontent.com/daddy-shark/command_line_batteries/master/install_clb.py
 $ sudo python /tmp/install_clb.py
 ```
 
@@ -92,8 +92,8 @@ pip install clb --upgrade
 
 Download example script and config:
 ```
-wget -O /opt/command_line_batteries/example_script.py https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/example_script.py
-wget -O /opt/command_line_batteries/example_config.yml https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/example_config.yml
+wget -O /opt/command_line_batteries/example_script.py https://raw.githubusercontent.com/daddy-shark/command_line_batteries/master/example_script.py
+wget -O /opt/command_line_batteries/example_config.yml https://raw.githubusercontent.com/daddy-shark/command_line_batteries/master/example_config.yml
 ```
 
 Make the example script executable:
