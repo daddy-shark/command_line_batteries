@@ -43,7 +43,10 @@ def update_bucket_lifecycle_rules() -> bool:
         bucket_lifecycle_configuration = aws_s3.BucketLifecycleConfiguration(
             ConfigManager.get_config_value('aws_bucket')
         )
-        lifecycle_rules = bucket_lifecycle_configuration.rules
+        try:
+            lifecycle_rules = bucket_lifecycle_configuration.rules
+        except botocore.exceptions.ClientError:
+            lifecycle_rules = []
 
         backup_lifecycle_rule = {
             'Expiration': {'Days': ConfigManager.get_config_value('aws_expire_after_days')},
@@ -63,7 +66,7 @@ def update_bucket_lifecycle_rules() -> bool:
         )
         LOG.debug(f'AWS response HTTP status code: {response["ResponseMetadata"]["HTTPStatusCode"]}')
 
-    except botocore.exceptions.BotoCoreError as error:
+    except (botocore.exceptions.BotoCoreError, botocore.exceptions.ClientError) as error:
         LOG.error(error)
         return False
 
