@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
     for file in EXAMPLES:
         download_file(
-            'https://raw.githubusercontent.com/sharkman-devops/command_line_batteries/master/examples/{}'.format(file),
+            'https://raw.githubusercontent.com/daddy-shark/command_line_batteries/master/examples/{}'.format(file),
             '{}/{}'.format(INSTALL_PATH, file)
         )
         if '.py' in file:

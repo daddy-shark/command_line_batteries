@@ -12,7 +12,7 @@ setuptools.setup(
                 ' - the way to improve the functionality of Bash commands without writing a too difficult Bash code.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/sharkman-devops/command_line_batteries',
+    url='https://github.com/daddy-shark/command_line_batteries',
     packages=setuptools.find_packages(),
     install_requires=[
         'PyYAML>=5.1,<6.0',
