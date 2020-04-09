@@ -56,7 +56,11 @@ def update_bucket_lifecycle_rules() -> bool:
             'NoncurrentVersionExpiration': {'NoncurrentDays': ConfigManager.get_config_value('aws_expire_after_days')}
         }
 
-        if backup_lifecycle_rule not in lifecycle_rules:
+        if backup_lifecycle_rule.get('ID') not in [rule.get('ID') for rule in lifecycle_rules]:
+            lifecycle_rules.append(backup_lifecycle_rule)
+        elif backup_lifecycle_rule not in lifecycle_rules:
+            index = [rule.get('ID') for rule in lifecycle_rules].index(backup_lifecycle_rule.get('ID'))
+            lifecycle_rules.pop(index)
             lifecycle_rules.append(backup_lifecycle_rule)
 
         response = bucket_lifecycle_configuration.put(
